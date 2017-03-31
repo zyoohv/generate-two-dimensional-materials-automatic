@@ -1,0 +1,15 @@
+3.170841    0.016158    -0.219126
+-0.011973    5.508152    0.218269
+-0.293847    0.558833    7.265195
+6  # atoms
+42    1.639302    4.927543    0.277449
+42    0.054835    2.166109    0.275586
+16    0.169249    0.267039    1.762278
+16    1.745429    3.028893    1.760310
+16    2.834481    0.964907    5.692818
+16    1.236447    3.711578    5.908734
+4    # minimal distance between crystal planes
+3    # minimal distance between atoms of different planes
+15   # new distance between atoms
+20   # maximal magnitude of lattice vectors
+0.01  # eps_scale

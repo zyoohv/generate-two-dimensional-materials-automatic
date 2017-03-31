@@ -1,0 +1,703 @@
+PROGRAM find2d
+   !
+   !----------------------------------------------------------------- 
+   ! This program finds the crystal plane with the largest distance
+   ! between atoms belong to different crystal planes, and then
+   ! enlarge the distance and recalculate the basis vectors and atom
+   ! position.
+   !-----------------------------------------------------------------
+   !
+   USE find2d_com
+   !
+   IMPLICIT NONE
+   ! 
+   ! Data dictionary-------------------------------------------------
+   !
+   ! counters
+   INTEGER :: ii,jj,kk,nn,mm
+   !
+   CALL input()
+   CALL prep_inf()
+   CALL find_gv()
+   CALL find_av()
+   !
+ENDPROGRAM find2d
+
+SUBROUTINE input()
+   !
+   USE find2d_com
+   !
+   IMPLICIT NONE
+   INTEGER :: ii
+   !
+   ! read basis vectors of lattice, regardless of units
+   !
+   READ(*,*) cvec(:,1)
+   READ(*,*) cvec(:,2)
+   READ(*,*) cvec(:,3)
+   !
+   ! read atom positions
+   !
+   READ(*,*) nat
+   ALLOCATE(atom_tau(3,nat))
+   ALLOCATE(atom_type(nat))
+   DO ii=1,nat
+      READ(*,*) atom_type(ii), atom_tau(:,ii)
+   ENDDO
+   !
+   ! read distances
+   !
+   READ(*,*) dist_min
+   READ(*,*) dist_a_min
+   READ(*,*) dist_a_new
+   READ(*,*) r_max
+   !
+   ! read threshold
+   !
+   READ(*,*) eps_scale
+   !
+ENDSUBROUTINE input
+
+SUBROUTINE prep_inf()
+   !
+   USE find2d_com
+   USE my_math
+   USE phy_const
+   !
+   IMPLICIT NONE
+   INTEGER :: ii
+   !
+   !
+   WRITE(*,*) "find2D.x, version 1.0, written by Zhida Song"
+   WRITE(*,*) "Information from input file--------------------------&
+                                          --------------------------"
+   !
+   ! lattice basis vector
+   !
+   WRITE(*,*) "The basis vectors of lattice:"
+   DO ii=1,3
+      WRITE(*,100) ii, cvec(:,ii)
+      100 FORMAT( T5,'a(',I1,')=(', 3ES16.8,'   )' )
+   ENDDO
+   rvolume = mix_prod(cvec(:,1),cvec(:,2),cvec(:,3))
+   rradius = (3*rvolume/4/const_pi)**(1.0/3.0) 
+   WRITE(*,102) "Volume of a primitive cell is                    ",&
+                                                              rvolume
+   WRITE(*,102) "Wigner-seitz radius is                           ",&
+                                                              rradius
+   !
+   ! Reciprocal lattice basis vector
+   !
+   bvec_c(:,1) = 2*const_pi*x_prod(cvec(:,2),cvec(:,3))/rvolume
+   bvec_c(:,2) = 2*const_pi*x_prod(cvec(:,3),cvec(:,1))/rvolume
+   bvec_c(:,3) = 2*const_pi*x_prod(cvec(:,1),cvec(:,2))/rvolume
+   gvolume = 8*const_pi**3/rvolume
+   gradius = (3*gvolume/4/const_pi)**(1.0/3.0)
+   !
+   WRITE(*,*) "The basis vectors of reciprocal lattice:"
+   DO ii=1,3
+      WRITE(*,103) ii, bvec_c(1,ii)/2/const_pi, &
+                       bvec_c(2,ii)/2/const_pi, &
+                       bvec_c(3,ii)/2/const_pi
+      103 FORMAT( T5,'b(',I1,')=(', 3ES16.8,'   ) * 2pi' )
+   ENDDO
+   WRITE(*,102) "Volume of a reciprocal primitive cell is         ",&
+                                                              gvolume
+   WRITE(*,102) "Reciprocal wigner-seitz radius is                ",&
+                                                              gradius
+   !
+   ! atoms in unit cell
+   !
+   WRITE(*,*) "Atom positions:"
+   DO ii=1,nat
+      WRITE(*,101) atom_type(ii), ii, atom_tau(:,ii)
+      101 FORMAT( T5, 'type=', I2,',   tau(', I3, ')=(', 3ES16.8, &
+                                                            '   )' )
+   ENDDO
+   !
+   ! computation parameter
+   !
+   WRITE(*,*) "Computation parameters:"
+   WRITE(*,102) "Minimal distance between layers                  ",&
+                                                             dist_min
+   WRITE(*,102) "Minimal distance between atoms in differnt layers",&
+                                                             dist_min
+   WRITE(*,102) "New distance between atoms in differnt layers    ",&
+                                                           dist_a_min
+   WRITE(*,102) "Maximal magnitude of lattice vectors             ",&
+                                                                r_max
+   WRITE(*,102) "Tolerance (scale)                                ",&
+                                                            eps_scale
+   !
+   eps_r = rradius*eps_scale
+   eps_g = gradius*eps_scale
+   !
+   WRITE(*,102) "Tolerance (lattice)                              ",&
+                                                                eps_r
+   WRITE(*,102) "Tolerance (reciprocal lattice)                   ",&
+                                                                eps_g
+   102 FORMAT( T4,A50,':',ES16.8 )
+   !
+   ! reciprocal
+   !
+ENDSUBROUTINE
+
+SUBROUTINE find_gv()
+   !
+   USE kind
+   USE find2d_com
+   USE my_math
+   USE phy_const
+   !
+   IMPLICIT NONE
+   !
+   INTEGER :: cnt, ii, jj, kk
+   REAL(KIND=DP), DIMENSION(3) :: gv_tmp1,gv_tmp2
+   REAL(KIND=DP), ALLOCATABLE, DIMENSION(:,:) :: gv_vec_tmp
+   !
+   ALLOCATE(gv_vec_tmp(3,gv_max_num))
+   !
+   cnt=1
+   DO ii=gv_max_n1,-gv_max_n1,-1
+      DO jj=gv_max_n2,-gv_max_n2,-1
+         DO kk=gv_max_n3,-gv_max_n3,-1
+            gv_tmp1 = REAL(ii,KIND=DP)*bvec_c(:,1) + &
+                      REAL(jj,KIND=DP)*bvec_c(:,2) 
+            gv_tmp2 = REAL(kk,KIND=DP)*bvec_c(:,3) + gv_tmp1
+            !
+            IF( vect_len(gv_tmp2) <= 2.0*const_pi/dist_min ) THEN
+               gv_vec_tmp(:,cnt) = gv_tmp2(:) 
+               cnt = cnt + 1
+            ENDIF
+            !
+         ENDDO ! kk
+      ENDDO ! jj
+   ENDDO ! ii
+   !
+   ! collect and output the g vectors
+   !
+   gv_num = cnt-1
+   ALLOCATE(gv_vec(3,gv_num))
+   ALLOCATE(gv_len(gv_num))
+   gv_vec(:,:) = gv_vec_tmp(:,1:gv_num)
+   DEALLOCATE(gv_vec_tmp)
+   !
+   WRITE(*,*) "All g-vectors satisfy |g| <= 2pi/dist_min------------&
+                                          --------------------------"
+   !
+   IF (gv_num == gv_max_num) THEN
+      WRITE(*,*) "    dist_min may be too small"
+   ENDIF
+   !
+   DO cnt=1,gv_num
+      gv_len(cnt) = vect_len(gv_vec(:,cnt))
+      WRITE(*,104) cnt, gv_vec(1,cnt)/2/const_pi, &
+                        gv_vec(2,cnt)/2/const_pi, &
+                        gv_vec(3,cnt)/2/const_pi, &
+                        2*const_pi/gv_len(cnt)
+      104 FORMAT( T5,'g(',I4,')=(', 3ES12.4,')*2pi,  distance =',ES12.4 )
+   ENDDO
+   !
+   ! delete parallel gvectors ---------------------------------------
+   !
+   CALL del_para_g()
+   !
+   !WRITE(*,*) "Non-parallel g-vectors:------------------------------&
+   !                                       --------------------------"
+   !
+   !DO cnt=1,gv_num
+   !   gv_len(cnt) = vect_len(gv_vec(:,cnt))
+   !   WRITE(*,104) cnt, gv_vec(1,cnt)/2/const_pi, &
+   !                     gv_vec(2,cnt)/2/const_pi, &
+   !                     gv_vec(3,cnt)/2/const_pi, &
+   !                     2*const_pi/gv_len(cnt)
+   !ENDDO
+   !
+   ! delete equilavent gvectors--------------------------------------
+   !
+   CALL del_eq_g()
+   !
+   WRITE(*,*) "Non-equivalent g-vectors:----------------------------&
+                                          --------------------------"
+   !
+   DO cnt=1,gv_num
+      gv_len(cnt) = vect_len(gv_vec(:,cnt))
+      WRITE(*,104) cnt, gv_vec(1,cnt)/2/const_pi, &
+                        gv_vec(2,cnt)/2/const_pi, &
+                        gv_vec(3,cnt)/2/const_pi, &
+                        2*const_pi/gv_len(cnt)
+   ENDDO
+   !
+   DEALLOCATE(gv_len)
+   !
+ENDSUBROUTINE
+
+SUBROUTINE del_para_g()
+   !
+   USE kind
+   USE find2d_com
+   USE my_math
+   USE phy_const
+   !
+   IMPLICIT NONE
+   !
+   INTEGER :: ii,jj,cnt
+   REAL(KIND=DP), ALLOCATABLE, DIMENSION(:,:) :: gv_tmp
+   REAL(KIND=DP), PARAMETER :: eps_tmp=1e-6
+   LOGICAL, ALLOCATABLE, DIMENSION(:) :: neq
+   !
+   IF ( gv_num==1 ) THEN
+      WRITE(*,*) "ERROR!!! no proper g-vector exists!!!"
+   ENDIF
+   !
+   ALLOCATE(gv_tmp(3,gv_num))
+   ALLOCATE(neq(gv_num))
+   DO ii=1,gv_num
+      neq(ii) = .TRUE.
+   ENDDO
+   !
+   ! delete the parallel and equivalent g-vectors
+   !
+   DO ii=1,gv_num-1
+      DO jj=ii+1,gv_num
+         IF ( ABS(vect_len(gv_vec(:,ii))) < eps_tmp*gradius ) THEN
+            neq(ii) = .FALSE.
+         ELSEIF ( ABS(vect_len(gv_vec(:,jj))) < eps_tmp*gradius ) THEN
+            neq(jj) = .FALSE.
+         ELSE
+            IF ( ABS( vect_len( x_prod(gv_vec(:,ii),gv_vec(:,jj)) ) )&
+                                              < eps_tmp*gradius ) THEN
+               !
+               IF( ABS(vect_len(gv_vec(:,ii))) <=                   &
+                                   ABS(vect_len(gv_vec(:,jj))) ) THEN
+                  neq(jj) = .FALSE.
+               ELSE
+                  neq(ii) = .FALSE.
+               ENDIF
+               !
+            ENDIF
+         ENDIF
+      ENDDO
+   ENDDO
+   !
+   ! recollect the non-equivalent g-vectors
+   !
+   cnt=1
+   DO ii=2,gv_num
+      IF( neq(ii) ) THEN
+         gv_tmp(:,cnt) = gv_vec(:,ii)
+         cnt=cnt+1
+      ENDIF
+   ENDDO
+   !
+   gv_num = cnt-1
+   DEALLOCATE(gv_vec)
+   ALLOCATE(gv_vec(3,gv_num))
+   gv_vec(:,:) = gv_tmp(:,1:gv_num)
+   !
+   DEALLOCATE(gv_tmp) 
+   DEALLOCATE(neq) 
+ENDSUBROUTINE del_para_g
+
+SUBROUTINE del_eq_g()
+   !
+   USE kind
+   USE find2d_com
+   USE my_math
+   USE phy_const
+   !
+   IMPLICIT NONE
+   !
+   REAL(KIND=DP), DIMENSION(3) :: rot    ! rotation direction
+   REAL(KIND=DP) :: alpha                ! rotation angle 
+   REAL(KIND=DP), DIMENSION(3) :: r1,r2  ! tmp vector
+   REAL(KIND=DP) :: n1,n2,n3
+   LOGICAL :: neq
+   INTEGER :: ii,jj,kk,cnt
+   REAL(KIND=DP), ALLOCATABLE, DIMENSION(:,:) :: gv_tmp
+   !
+   ALLOCATE(gv_tmp(3,gv_num))
+   !
+   cnt=1
+   DO ii=1,gv_num-1
+      neq = .TRUE.
+      !
+      DO jj=ii+1, gv_num
+         IF (ABS( vect_len(gv_vec(:,ii))-vect_len(gv_vec(:,jj)) )<eps_g) THEN
+            !
+            ! rotation
+            !
+            CALL rot_alpha(gv_vec(:,ii),gv_vec(:,jj),rot,alpha)
+            DO kk=1,nat
+               r1 = atom_tau(:,kk)
+               r2 = (1-cos(alpha))*dot_prod(r1,rot)*rot &
+                    + sin(alpha)*x_prod(rot,r1) &
+                    + cos(alpha)*r1
+               r2 = r2 - r1
+               n1 = dot_prod(r2,cvec(:,1))/dot_prod(cvec(:,1),cvec(:,1))
+               n2 = dot_prod(r2,cvec(:,2))/dot_prod(cvec(:,2),cvec(:,2))
+               n3 = dot_prod(r2,cvec(:,3))/dot_prod(cvec(:,3),cvec(:,3))
+               IF ( ABS(NINT(n1)-n1)<eps_scale .AND. &
+                    ABS(NINT(n2)-n2)<eps_scale .AND. &
+                    ABS(NINT(n3)-n3)<eps_scale ) THEN
+                  neq = .FALSE.
+               ENDIF
+            ENDDO
+            !
+            ! rotation-reversion
+            !
+            !CALL rot_alpha(gv_vec(:,ii),-gv_vec(:,jj),rot,alpha)
+            !DO kk=1,nat
+            !   r1 = atom_tau(:,kk)
+            !   r2 = -(1-cos(alpha))*dot_prod(r1,rot)*rot &
+            !        - sin(alpha)*x_prod(rot,r1) &
+            !        - cos(alpha)*r1
+            !   r2 = r2 - r1
+            !   n1 = dot_prod(r2,cvec(:,1))/dot_prod(cvec(:,1),cvec(:,1))
+            !   n2 = dot_prod(r2,cvec(:,2))/dot_prod(cvec(:,2),cvec(:,2))
+            !   n3 = dot_prod(r2,cvec(:,3))/dot_prod(cvec(:,3),cvec(:,3))
+            !   IF ( ABS(NINT(n1)-n1)<eps_scale .AND. &
+            !        ABS(NINT(n2)-n2)<eps_scale .AND. &
+            !        ABS(NINT(n3)-n3)<eps_scale ) THEN
+            !      neq = .FALSE.
+            !   ENDIF
+            !ENDDO
+            !
+         ENDIF
+      ENDDO ! jj
+      !
+      IF(neq) THEN
+         gv_tmp(:,cnt) = gv_vec(:,ii)
+         cnt = cnt + 1
+      ENDIF
+   ENDDO ! ii
+   !
+   gv_tmp(:,cnt) = gv_vec(:,gv_num)
+   gv_num = cnt
+   !
+   DEALLOCATE(gv_vec)
+   ALLOCATE(gv_vec(3,gv_num))
+   gv_vec(:,:) = gv_tmp(:,:)
+   DEALLOCATE(gv_tmp)
+   !
+ENDSUBROUTINE del_eq_g
+
+SUBROUTINE rot_alpha(g1,g2,rot,alpha)
+   !
+   USE kind
+   USE my_math
+   USE phy_const
+   USE find2d_com, ONLY : eps_g
+   !
+   IMPLICIT NONE
+   !
+   REAL(KIND=DP), DIMENSION(3), INTENT(IN) :: g1, g2
+   REAL(KIND=DP), DIMENSION(3), INTENT(OUT) :: rot    
+   REAL(KIND=DP), INTENT(OUT) :: alpha 
+   REAL(KIND=DP), DIMENSION(3) :: gtmp
+   !
+   alpha = ACOS( dot_prod(g1(:),g2(:))/SQRT( dot_prod(g1(:),g1(:)) * &
+                                             dot_prod(g2(:),g2(:)) ) )
+   !
+   rot = x_prod( g1(:),g2(:) )
+   rot = rot/ABS(vect_len(rot)) 
+   !
+   gtmp = SIN(alpha)*x_prod(rot(:), g1(:)) + COS(alpha)*g1(:)
+   !
+   IF( vect_len( g2-gtmp ) > eps_g) &
+      rot = (/ -rot(1), -rot(2), -rot(3) /)
+ENDSUBROUTINE rot_alpha
+
+SUBROUTINE find_av()
+   !
+   USE kind
+   USE my_math
+   USE phy_const
+   USE find2d_com, ONLY : avec, gv_num, gv_vec
+   !
+   IMPLICIT NONE
+   !
+   INTEGER :: ii, jj
+   LOGICAL, ALLOCATABLE, DIMENSION(:) :: finds
+   ! 
+   ALLOCATE(avec(3,3,gv_num))
+   ALLOCATE(finds(gv_num))
+   !
+   DO ii=1,gv_num
+      CALL find_av_for_g(ii,finds(ii))
+   ENDDO
+   !
+   WRITE(*,*) "Layer basis vectors----------------------------------&
+                                          --------------------------"
+   !
+   DO ii=1,gv_num
+      WRITE(*,120) ii, gv_vec(:,ii)/2/const_pi
+      120 FORMAT( T5,'g(',I4,')=(', 3ES12.4,' ) * 2pi')
+      !
+      IF (finds(ii)) THEN
+         WRITE(*,121) 'Find inner and intra layer basis vectors:'
+         121 FORMAT( T10,A41)
+         !
+         DO jj=1,3
+            WRITE(*,122) jj, avec(:,jj,ii)
+            122 FORMAT( T10,'a(',I1,')=(', 3ES12.4,' )')
+         ENDDO
+         !
+         WRITE(*,123) abs(dot_prod(x_prod(avec(:,1,ii),avec(:,2,ii)), &
+                                          avec(:,3,ii)) )
+         123 FORMAT(T10,'Volume of unit cell:',ES12.4) 
+      ELSE
+         WRITE(*,124) 'Cannot find inner and intra layer basis vectors:'
+         124 FORMAT( T10,A48)
+      ENDIF
+   ENDDO
+   ! 
+   DEALLOCATE(finds)
+ENDSUBROUTINE find_av
+
+SUBROUTINE find_av_for_g(nn,finds)
+   !
+   USE kind
+   USE my_math
+   USE phy_const, ONLY : const_pi
+   USE find2d_com, ONLY : avec, cvec, gv_vec, rradius
+   !
+   IMPLICIT NONE
+   !
+   INTEGER, INTENT(IN) :: nn                  ! g-vector index
+   LOGICAL, INTENT(OUT) :: finds              ! finds=.true. if sucess
+   !
+   REAL(KIND=DP), DIMENSION(3) :: v1, v2, v3
+   REAL(KIND=DP) :: sin_tmp
+   REAL(KIND=DP), PARAMETER :: eps_sin = 1.0D-6
+   LOGICAL :: suces
+   !
+   CALL find_inner_a(gv_vec(:,nn),cvec(:,1),cvec(:,2),cvec(:,3),v1,suces)
+   !
+   ! if we get v1, get v2
+   IF (suces) THEN
+      CALL find_inner_a(gv_vec(:,nn),cvec(:,2),cvec(:,3),cvec(:,1),v2,suces)
+      !
+      ! if we get v2, check wether v1 // v2
+      IF (suces) THEN
+         sin_tmp = abs(vect_len(x_prod(v1,v2)))/(vect_len(v1)*vect_len(v2))
+         !
+         ! if v1 // v2, get v2 again
+         IF ( abs(sin_tmp)<eps_sin ) THEN
+            CALL find_inner_a(gv_vec(:,nn),cvec(:,3),cvec(:,1),cvec(:,2),v2,suces)
+            !
+            ! if we also cannot get v2, print an error
+            IF ( .NOT. suces) THEN
+               finds = .FALSE.
+            ELSE
+               sin_tmp = abs(vect_len(x_prod(v1,v2)))/(vect_len(v1)*vect_len(v2))
+               !
+               ! if v1 // v2, print an error
+               IF ( abs(sin_tmp)<eps_sin ) THEN
+                  finds = .FALSE.
+               ELSE
+                  finds = .TRUE.
+               ENDIF
+            ENDIF
+         ELSE
+            finds = .TRUE.
+         ENDIF
+      !
+      ! if we do not get v2, get v2 again
+      ELSE
+         CALL find_inner_a(gv_vec(:,nn),cvec(:,3),cvec(:,1),cvec(:,2),v2,suces)
+         !
+         ! if we also cannot get v2, print an error
+         IF ( .NOT. suces) THEN
+            finds = .FALSE.
+         ELSE
+            sin_tmp = abs(vect_len(x_prod(v1,v2)))/(vect_len(v1)*vect_len(v2))
+            !
+            ! if v1 // v2, print an error
+            IF ( abs(sin_tmp)<eps_sin ) THEN
+               finds = .FALSE.
+            ELSE
+               finds = .TRUE.
+            ENDIF
+         ENDIF
+      ENDIF
+   !
+   ! if we do not get v1, get v1 again
+   ELSE
+      CALL find_inner_a(gv_vec(:,nn),cvec(:,2),cvec(:,3),cvec(:,1),v1,suces)
+      !
+      ! if we also cannot get v1, print an error
+      IF ( .NOT. suces) THEN
+         finds = .FALSE.
+      ! 
+      ! if we get v1, get v2
+      ELSE
+         CALL find_inner_a(gv_vec(:,nn),cvec(:,3),cvec(:,1),cvec(:,2),v2,suces)
+         !
+         ! if we also cannot get v2, print an error
+         IF ( .NOT. suces) THEN 
+            finds = .FALSE.
+         ELSE
+            sin_tmp = abs(vect_len(x_prod(v1,v2)))/(vect_len(v1)*vect_len(v2))
+            !
+            ! if v1 // v2, print an error
+            IF ( abs(sin_tmp)<eps_sin ) THEN
+               finds = .FALSE.
+            ELSE
+               finds = .TRUE.
+            ENDIF
+         ENDIF
+      ENDIF   
+   ENDIF
+   !
+   IF ( finds ) THEN
+      CALL find_intra_a(gv_vec(:,nn),cvec(:,1),cvec(:,2),cvec(:,3),v3,suces)
+      IF (.NOT. suces) THEN
+         CALL find_intra_a(gv_vec(:,nn),cvec(:,2),cvec(:,3),cvec(:,1),v3,suces)
+         IF (.NOT. suces) THEN
+            CALL find_intra_a(gv_vec(:,nn),cvec(:,3),cvec(:,1),cvec(:,2),v3,suces)
+            IF (.NOT. suces) THEN
+               finds = .FALSE.
+            ELSE
+               finds = .TRUE.
+            ENDIF
+         ELSE
+            finds = .TRUE.
+         ENDIF
+      ELSE
+         finds = .TRUE.
+      ENDIF
+   ENDIF
+   avec(:,1,nn) = v1
+   avec(:,2,nn) = v2
+   avec(:,3,nn) = v3
+   !
+ENDSUBROUTINE find_av_for_g
+
+SUBROUTINE find_inner_a(gv,ain1,ain2,ain3,aout,suces)
+   !
+   USE kind
+   USE phy_const, ONLY : const_pi
+   USE my_math
+   !
+   IMPLICIT NONE
+   !
+   REAL(KIND=DP), DIMENSION(3), INTENT(IN) :: gv, ain1, ain2, ain3
+   REAL(KIND=DP), DIMENSION(3), INTENT(OUT) :: aout
+   LOGICAL, INTENT(OUT) :: suces
+   INTEGER :: near_to
+   !
+   REAL(KIND=DP), DIMENSION(3,9) :: vec_tmp
+   REAL(KIND=DP), DIMENSION(9)   :: cos_tmp
+   REAL(KIND=DP) :: cos_tmp2
+   REAL(KIND=DP), PARAMETER :: eps_cos = 1.0D-6
+   !
+   INTEGER :: cnt, ii, jj
+   !
+   aout = ain1
+   suces = .FALSE.
+   DO cnt=1,50
+      vec_tmp(:,1) = aout 
+      vec_tmp(:,2) = aout + ain2
+      vec_tmp(:,3) = aout - ain2
+      vec_tmp(:,4) = aout + ain3
+      vec_tmp(:,5) = aout - ain3
+      vec_tmp(:,6) = aout + ain2 + ain3
+      vec_tmp(:,7) = aout + ain2 - ain3
+      vec_tmp(:,8) = aout - ain2 + ain3
+      vec_tmp(:,9) = aout - ain2 - ain3
+      !
+      DO ii=1,9
+         cos_tmp(ii) = dot_prod(vec_tmp(:,ii),gv) / &
+                       (vect_len(vec_tmp(:,ii))*vect_len(gv))
+      ENDDO
+      !
+      jj = near_to(REAL(0.0,KIND=DP),cos_tmp,9)
+      cos_tmp2 = cos_tmp(jj)
+      aout = vec_tmp(:,jj)
+      !
+      IF (abs(cos_tmp2)<eps_cos) THEN
+         suces = .TRUE.
+         EXIT
+      ENDIF
+      !
+   ENDDO 
+ENDSUBROUTINE find_inner_a
+
+SUBROUTINE find_intra_a(gv,ain1,ain2,ain3,aout,suces)
+   !
+   USE kind
+   USE phy_const, ONLY : const_pi
+   USE my_math
+   !
+   IMPLICIT NONE
+   !
+   REAL(KIND=DP), DIMENSION(3), INTENT(IN) :: gv, ain1, ain2, ain3
+   REAL(KIND=DP), DIMENSION(3), INTENT(OUT) :: aout
+   LOGICAL, INTENT(OUT) :: suces
+   INTEGER :: near_to
+   !
+   REAL(KIND=DP), DIMENSION(3,9) :: vec_tmp
+   REAL(KIND=DP), DIMENSION(9)   :: proj_tmp   ! a.g/|g|/|distance|
+   REAL(KIND=DP) :: proj_tmp2
+   REAL(KIND=DP) :: dist
+   REAL(KIND=DP), PARAMETER :: eps_proj = 1.0D-6
+   !
+   INTEGER :: cnt, ii, jj
+   !
+   dist = 2*const_pi/vect_len(gv)
+   !
+   aout = ain1
+   suces = .FALSE.
+   DO cnt=1,50
+      vec_tmp(:,1) = aout 
+      vec_tmp(:,2) = aout + ain2
+      vec_tmp(:,3) = aout - ain2
+      vec_tmp(:,4) = aout + ain3
+      vec_tmp(:,5) = aout - ain3
+      vec_tmp(:,6) = aout + ain2 + ain3
+      vec_tmp(:,7) = aout + ain2 - ain3
+      vec_tmp(:,8) = aout - ain2 + ain3
+      vec_tmp(:,9) = aout - ain2 - ain3
+      !
+      DO ii=1,9
+         proj_tmp(ii) = dot_prod(vec_tmp(:,ii),gv)/vect_len(gv)/dist
+      ENDDO
+      !
+      jj = near_to(REAL(1.0,KIND=DP),proj_tmp,9)
+      proj_tmp2 = proj_tmp(jj)
+      aout = vec_tmp(:,jj)
+      !
+      IF (abs(proj_tmp2-1.0)<eps_proj) THEN
+         suces = .TRUE.
+         EXIT
+      ENDIF
+      !
+   ENDDO
+ENDSUBROUTINE find_intra_a
+
+FUNCTION near_to(targ,angle,num)
+   !
+   USE kind
+   USE phy_const, ONLY : const_pi
+   !
+   IMPLICIT NONE
+   !
+   INTEGER :: near_to
+   REAL(KIND=DP), INTENT(IN) :: targ
+   REAL(KIND=DP), DIMENSION(5), INTENT(IN) :: angle
+   INTEGER, INTENT(IN) :: num
+   REAL(KIND=DP) :: angle_tmp
+   !
+   INTEGER :: ii
+   !
+   near_to = 1
+   angle_tmp = angle(1)
+   DO ii=2,num
+      IF ( abs(targ-angle(ii))<abs(targ-angle_tmp) )  THEN
+         near_to = ii
+         angle_tmp = angle(ii)
+      ENDIF
+   ENDDO
+   !
+ENDFUNCTION near_to

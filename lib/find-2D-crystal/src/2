@@ -1,0 +1,26 @@
+SUBROUTINE layer_cryst(nn)
+   !
+   USE kind
+   USE my_math
+   USE find2d_com, ONLY : cvec, atom_type, atom_tau, dist_a_min, dist_a_new &
+                          gv_vec, avec
+   !
+   !---------------------------------------------------------------------------
+   IMPLICIT NONE
+   !
+   INTEGER, INTENT(IN) :: nn
+   REAL(KIND=DP), DIMENSION(3) :: a1,a2,a3, gv, dv
+   ! a1,a2,a3 : layered basis vectors, i.e. avec(:,:,nn)
+   ! gv : gvectors, i.e. gv_vec(:,nn) 
+   ! dv : parallel to gv, magnitude is distance between layers
+   !
+   INTEGER :: cell_num    ! number of unit cells in the cell defined by a1a2a3
+   !
+   REAL(KIND=DP), ALLOCATABLE, DIMENSION(:,:) at_tau
+   ! atom position in cell defined by a1,a2,a3
+   !---------------------------------------------------------------------------
+   !
+
+
+   ! generating new cell defined by a1,a2,a3
+ENDSUBROUTINE

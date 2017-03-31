@@ -1,0 +1,105 @@
+ find2D.x, version 1.0, written by Zhida Song
+ Information from input file----------------------------------------------------
+ The basis vectors of lattice:
+    a(1)=(  3.17084100E+00  1.61580000E-02 -2.19126000E-01   )
+    a(2)=( -1.19730000E-02  5.50815200E+00  2.18269000E-01   )
+    a(3)=( -2.93847000E-01  5.58833000E-01  7.26519500E+00   )
+    Volume of a primitive cell is                    :  1.26150478E+02
+    Wigner-seitz radius is                           :  3.11123948E+00
+ The basis vectors of reciprocal lattice:
+    b(1)=(  3.16255818E-01  1.81120907E-04  1.27773042E-02   ) * 2pi
+    b(2)=( -1.90126796E-03  1.82103065E-01 -1.40841208E-02   ) * 2pi
+    b(3)=(  9.59573145E-03 -5.46547830E-03  1.38451062E-01   ) * 2pi
+    Volume of a reciprocal primitive cell is         :  1.96630436E+00
+    Reciprocal wigner-seitz radius is                :  7.77178367E-01
+ Atom positions:
+    type= 42,   tau(  1)=(  1.63930200E+00  4.92754300E+00  2.77449000E-01   )
+    type= 42,   tau(  2)=(  5.48350000E-02  2.16610900E+00  2.75586000E-01   )
+    type= 16,   tau(  3)=(  1.69249000E-01  2.67039000E-01  1.76227800E+00   )
+    type= 16,   tau(  4)=(  1.74542900E+00  3.02889300E+00  1.76031000E+00   )
+    type= 16,   tau(  5)=(  2.83448100E+00  9.64907000E-01  5.69281800E+00   )
+    type= 16,   tau(  6)=(  1.23644700E+00  3.71157800E+00  5.90873400E+00   )
+ Computation parameters:
+    Minimal distance between layers                  :  4.00000000E+00
+    Minimal distance between atoms in differnt layers:  4.00000000E+00
+    New distance between atoms in differnt layers    :  3.00000000E+00
+    Maximal magnitude of lattice vectors             :  2.00000000E+01
+    Tolerance (scale)                                :  1.00000000E-02
+    Tolerance (lattice)                              :  3.11123948E-02
+    Tolerance (reciprocal lattice)                   :  7.77178367E-03
+ All g-vectors satisfy |g| <= 2pi/dist_min--------------------------------------
+    g(   1)=(  7.6945E-03  1.7664E-01  1.2437E-01)*2pi,  distance =  4.6261E+00
+    g(   2)=( -1.9013E-03  1.8210E-01 -1.4084E-02)*2pi,  distance =  5.4747E+00
+    g(   3)=( -1.1497E-02  1.8757E-01 -1.5254E-01)*2pi,  distance =  4.1316E+00
+    g(   4)=(  9.5957E-03 -5.4655E-03  1.3845E-01)*2pi,  distance =  7.1999E+00
+    g(   5)=(  0.0000E+00  0.0000E+00  0.0000E+00)*2pi,  distance = Infinity   
+    g(   6)=( -9.5957E-03  5.4655E-03 -1.3845E-01)*2pi,  distance =  7.1999E+00
+    g(   7)=(  1.1497E-02 -1.8757E-01  1.5254E-01)*2pi,  distance =  4.1316E+00
+    g(   8)=(  1.9013E-03 -1.8210E-01  1.4084E-02)*2pi,  distance =  5.4747E+00
+    g(   9)=( -7.6945E-03 -1.7664E-01 -1.2437E-01)*2pi,  distance =  4.6261E+00
+ Non-equivalent g-vectors:------------------------------------------------------
+    g(   1)=( -1.9013E-03  1.8210E-01 -1.4084E-02)*2pi,  distance =  5.4747E+00
+    g(   2)=( -1.1497E-02  1.8757E-01 -1.5254E-01)*2pi,  distance =  4.1316E+00
+    g(   3)=(  9.5957E-03 -5.4655E-03  1.3845E-01)*2pi,  distance =  7.1999E+00
+
+
+ Configuration   1
+    g(   1)=( -1.9013E-03  1.8210E-01 -1.4084E-02 ) * 2pi
+       Find inner and intra layer basis vectors:
+       a(1)=(  2.8770E+00  5.7499E-01  7.0461E+00 )
+       a(2)=( -2.9385E-01  5.5883E-01  7.2652E+00 )
+       a(3)=(  2.8650E+00  6.0831E+00  7.2643E+00 )
+       Volume of unit cell:  1.2615E+02
+    |dv|=   5.4747
+    There are  0 atom layers in an unit cell:
+       type= 16, tau(  1)=(   0.1692   0.2670   1.7623 ), proj=   0.1286, layer= 0, dist=   0.7292
+       type= 16, tau(  2)=(   2.8345   0.9649   5.6928 ), proj=   0.4935, layer= 0, dist=   0.3649
+       type= 42, tau(  3)=(   0.0548   2.1661   0.2756 ), proj=   2.1377, layer= 0, dist=   1.6442
+       type= 16, tau(  4)=(   1.7454   3.0289   1.7603 ), proj=   2.8658, layer= 0, dist=   0.7281
+       type= 16, tau(  5)=(   1.2364   3.7116   5.9087 ), proj=   3.2319, layer= 0, dist=   0.3660
+       type= 42, tau(  6)=(   1.6393   4.9275   0.2774 ), proj=   4.8741, layer= 0, dist=   1.6423
+
+
+ Configuration   2
+    g(   2)=( -1.1497E-02  1.8757E-01 -1.5254E-01 ) * 2pi
+       Find inner and intra layer basis vectors:
+       a(1)=(  3.1708E+00  1.6158E-02 -2.1913E-01 )
+       a(2)=(  2.8650E+00  6.0831E+00  7.2643E+00 )
+       a(3)=(  3.1589E+00  5.5243E+00 -8.5700E-04 )
+       Volume of unit cell:  1.2615E+02
+    |dv|=   4.1316
+    There are  0 atom layers in an unit cell:
+       type= 16, tau(  1)=(   1.7454   3.0289   1.7603 ), proj=   1.1550, layer= 0, dist=   1.7207
+       type= 16, tau(  2)=(   5.9933   6.4892   5.6920 ), proj=   1.1570, layer= 0, dist=   0.0020
+       type= 42, tau(  3)=(   0.0548   2.1661   0.2756 ), proj=   1.5024, layer= 0, dist=   0.3453
+       type= 16, tau(  4)=(   3.3281   5.7913   1.7614 ), proj=   3.2199, layer= 0, dist=   1.7175
+       type= 16, tau(  5)=(   4.3953   9.2359   5.9079 ), proj=   3.2254, layer= 0, dist=   0.0055
+       type= 42, tau(  6)=(   1.6393   4.9275   0.2774 ), proj=   3.5659, layer= 0, dist=   0.3405
+
+
+ Configuration   3
+    g(   3)=(  9.5957E-03 -5.4655E-03  1.3845E-01 ) * 2pi
+       Find inner and intra layer basis vectors:
+       a(1)=(  3.1708E+00  1.6158E-02 -2.1913E-01 )
+       a(2)=( -1.1973E-02  5.5082E+00  2.1827E-01 )
+       a(3)=(  2.8770E+00  5.7499E-01  7.0461E+00 )
+       Volume of unit cell:  1.2615E+02
+    |dv|=   7.1999
+    There are  1 atom layers in an unit cell:
+!  Maximal distance between layers is    4.0715
+       type= 42, tau(  1)=(   0.0548   2.1661   0.2756 ), proj=   0.1933, layer= 0, dist=   1.5605
+       type= 42, tau(  2)=(   1.6393   4.9275   0.2774 ), proj=   0.1959, layer= 0, dist=   0.0027
+       type= 16, tau(  3)=(   1.7454   3.0289   1.7603 ), proj=   1.7561, layer= 0, dist=   1.5602
+       type= 16, tau(  4)=(   0.1692   0.2670   1.7623 ), proj=   1.7579, layer= 0, dist=   0.0017
+       type= 16, tau(  5)=(   1.2364   3.7116   5.9087 ), proj=   5.8294, layer= 1, dist=   4.0715
+       type= 16, tau(  6)=(   2.8345   0.9649   5.6928 ), proj=   5.8327, layer= 1, dist=   0.0033
+    New cell with larger layer-distance
+       a(1)=(  3.1708E+00  1.6158E-02 -2.1913E-01 )
+       a(2)=( -1.1973E-02  5.5082E+00  2.1827E-01 )
+       a(3)=(  3.6320E+00  1.4495E-01  1.7940E+01 )
+       type= 42, tau(  1)=(   0.0548   2.1661   0.2756 ), proj=   0.1933, layer= 0, dist=   1.5605
+       type= 42, tau(  2)=(   1.6393   4.9275   0.2774 ), proj=   0.1959, layer= 0, dist=   0.0027
+       type= 16, tau(  3)=(   1.7454   3.0289   1.7603 ), proj=   1.7561, layer= 0, dist=   1.5602
+       type= 16, tau(  4)=(   0.1692   0.2670   1.7623 ), proj=   1.7579, layer= 0, dist=   0.0017
+       type= 16, tau(  5)=(   1.9915   3.2815  16.8026 ), proj=  16.7579, layer= 1, dist=  15.0000
+       type= 16, tau(  6)=(   3.5895   0.5349  16.5867 ), proj=  16.7611, layer= 1, dist=   0.0033
