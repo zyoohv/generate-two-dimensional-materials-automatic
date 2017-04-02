@@ -1,0 +1,251 @@
+pbe-mt_fhi Ac Ag Al Am Ar As At Au B Ba Be Bh Bi Bk Br C Ca Cd Ce Cf Cl Cm Co Cr Cs Cu Db Er Es F Fe Fm Fr Ga Gd Ge H He Hf Hg Hs I In Ir K Kr Li Lr Lu Md Mg Mn Mo Mt N Na Nb Nd Ne Ni Np O Os P Pa Pb Pd Pm Po Pt Ra Rb Re Rf Rh Rn Ru S Sb Sc Se Sg Si Sm Sn Sr Ta Tc Te Ti Tl Tm U V W Xe Y Yb Zn Zr
+pz-mt_fhi Ac Ag Al Am Ar As At Au B Ba Be Bh Bi Bk Br C Ca Cd Ce Cf Cl Cm Co Cr Cs Cu Db Er Es F Fe Fm Fr Ga Gd Ge H He Hf Hg Hs I In Ir K Kr Li Lr Lu Md Mg Mn Mo Mt N Na Nb Nd Ne Ni Np O Os P Pa Pb Pd Pm Po Pt Ra Rb Re Rf Rh Rn Ru S Sb Sc Se Sg Si Sm Sn Sr Ta Tc Te Ti Tl Tm U V W Xe Y Yb Zn Zr
+pw91-n-van Al As Cd F Ga Ge Kr Li Mo Os P Pt Re Ru Sb Si Sn Xe Zn
+pz-bhs As B Cl Ga Ge In Mg P Pb S Sb Se Sn Te W
+pbe-n-van Al As Cd Cl F Ga Li Os P Pt Ru Si V
+pbesol-n-rrkjus_psl.0.1 Al B C Cl F N Ni O P Pt S Si
+pz-n-rrkjus_psl.0.1 Al B C Cl F N Ni O P Pt S Si
+pz-n-kjpaw_psl.0.1 Al B C Cl F N Ni O P Pt S Si
+pbe-n-rrkjus_psl.0.1 Al B C Cl F N Ni O P Pt S Si
+pbe-n-kjpaw_psl.0.1 Al B C Cl F N Ni O P Pt S Si
+pbesol-n-kjpaw_psl.0.1 Al B C Cl F N Ni O P Pt S Si
+rel-pbe-n-kjpaw_psl.0.1 B C Cl F N Ni O P Pt S Si
+rel-pbesol-n-rrkjus_psl.0.1 B C Cl F N Ni O P Pt S Si
+pw91-nsp-van Ba Ca La Nb Sc Sr Ta Ti W Y Zr
+rel-pbe-n-rrkjus_psl.0.1 B C Cl F N Ni O P Pt S Si
+rel-pz-n-kjpaw_psl.0.1 B C Cl F N Ni O P Pt S Si
+rel-pbesol-n-kjpaw_psl.0.1 B C Cl F N Ni O P Pt S Si
+rel-pz-n-rrkjus_psl.0.1 B C Cl F N Ni O P Pt S Si
+pbe-nsp-van Ba Ca La Nb Sc Sr Ta W Y Zr
+pw91-van_ak Au C H N O P S Zn
+pz-van_ak Au C H N O P S Zn
+blyp-van_ak Au C H N O P S Zn
+bp-van_ak Au C H N O P S Zn
+pz-vbc Al B Br C H N Si
+pz-rrkjus C H N O Pd Pt Rh
+pbe-nd-rrkjus Au Co Fe Ni Pd Pt Rh
+pbe-rrkjus Be C H N O Pd Rh
+pbe-sp-van Al Cr Fe Mn Sr V
+pz-n-vbc Be Ca K Li Mg Na
+pbe-van_ak Au C H N O P
+blyp-mt C Cl N O P S
+pbesol-dn-kjpaw_psl.0.2.2 Ge Hg In Pb Te
+pbe-n-kjpaw_psl.0.2 As Be Br I Se
+pbesol-dn-rrkjus_psl.0.2.2 Ge Hg In Pb Te
+pz-dn-rrkjus_psl.0.2.2 Ge Hg In Pb Te
+rel-pbe-dn-rrkjus_psl.0.2.2 Ge Hg In Pb Te
+pbe-dn-rrkjus_psl.0.2.2 Ge Hg In Pb Te
+pbesol-n-rrkjus_psl.0.2 As Be Br I Se
+pz-n-rrkjus_psl.0.2 As Be Br I Se
+pbe-kjpaw Cu Ge H N O
+rel-pz-dn-rrkjus_psl.0.2.2 Ge Hg In Pb Te
+pz-nd-rrkjus Co Fe Ni Pd Pt
+rel-pbe-dn-kjpaw_psl.0.2.2 Ge Hg In Pb Te
+pz-dn-kjpaw_psl.0.2.2 Ge Hg In Pb Te
+pbesol-n-kjpaw_psl.0.2 As Be Br I Se
+rel-pbesol-dn-kjpaw_psl.0.2.2 Ge Hg In Pb Te
+rel-pz-dn-kjpaw_psl.0.2.2 Ge Hg In Pb Te
+rel-pbesol-dn-rrkjus_psl.0.2.2 Ge Hg In Pb Te
+pbe-n-rrkjus_psl.0.2 As Be Br I Se
+pbe-van_bm C H N O S
+pz-n-kjpaw_psl.0.2 As Be Br I Se
+pbe-dn-kjpaw_psl.0.2.2 Ge Hg In Pb Te
+rel-pz-n-kjpaw_psl.0.2 As Be Br Se
+rel-pbesol-dn-kjpaw_psl.0.2 Cd Cu Ga Sn
+rel-pbe-n-kjpaw_psl.0.2 As Be Br Se
+rel-pz-n-rrkjus_psl.0.2 As Be Br Se
+tpss-mt C H O Si
+pbe-dn-rrkjus_psl.0.2 Cd Cu Ga Sn
+pbe-dn-kjpaw_psl.0.2 Cd Cu Ga Sn
+pbesol-dn-rrkjus_psl.0.2 Cd Cu Ga Sn
+rel-pbe-dn-rrkjus_psl.0.2 Cd Cu Ga Sn
+pz-d-rrkjus Ag Au Cu In
+rel-pbesol-n-rrkjus_psl.0.2 As Be Br Se
+rel-pz-dn-rrkjus_psl.0.2 Cd Cu Ga Sn
+pbesol-dn-kjpaw_psl.0.2 Cd Cu Ga Sn
+rel-pbe-n-rrkjus_psl.0.2 As Be Br Se
+rel-pbe-dn-kjpaw_psl.0.2 Cd Cu Ga Sn
+rel-pbesol-n-kjpaw_psl.0.2 As Be Br Se
+pz-dn-rrkjus_psl.0.2 Cd Cu Ga Sn
+rel-pbesol-dn-rrkjus_psl.0.2 Cd Cu Ga Sn
+pz-dn-kjpaw_psl.0.2 Cd Cu Ga Sn
+rel-pz-dn-kjpaw_psl.0.2 Cd Cu Ga Sn
+pz-d-van Au Pb Tl
+pbe-rrkj Al Si Te
+pbe-spn-kjpaw_psl.0.2 Mo Na Ta
+rel-pbe-spn-kjpaw_psl.0.2 Mo Na Ta
+rel-pbe-n-kjpaw_psl.0.2.2 Al I Pd
+pz-kjpaw C H O
+pbe-spn-rrkjus_psl.0.2 Mo Na Ta
+rel-pz-n-kjpaw_psl.0.2.2 Al I Pd
+pz-sp-van_ak Fe Na Ti
+rel-pbesol-n-rrkjus_psl.0.2.2 Al I Pd
+rel-pbesol-spn-kjpaw_psl.0.2 Mo Na Ta
+bp-sp-van_ak Fe Na Ti
+rel-pz-rrkjus Au C O
+rel-pbe-n-rrkjus_psl.0.2.2 Al I Pd
+blyp-sp-van_ak Fe Na Ti
+rel-pbesol-spn-rrkjus_psl.0.2 Mo Na Ta
+rel-pbesol-n-kjpaw_psl.0.2.2 Al I Pd
+pw91-sp-van_ak Fe Na Ti
+pbe-d-rrkjus Ag Cu In
+star1s-pbe-sp-mt_gipaw Co Fe Ni
+pbesol-spn-rrkjus_psl.0.2 Mo Na Ta
+pz-spn-rrkjus_psl.0.2 Mo Na Ta
+rel-pz-spn-kjpaw_psl.0.2 Mo Na Ta
+rel-pz-n-rrkjus_psl.0.2.2 Al I Pd
+pbe-sp-mt_gipaw Co Fe Ni
+pz-spn-kjpaw_psl.0.2 Mo Na Ta
+rel-pbe-spn-rrkjus_psl.0.2 Mo Na Ta
+pbe-sp-van_ak Fe Na Ti
+blyp-n-van_ak Al B Cu
+pbesol-spn-kjpaw_psl.0.2 Mo Na Ta
+pz-sp-van K Nb Ti
+rel-pz-spn-rrkjus_psl.0.2 Mo Na Ta
+rel-pbesol-dn-rrkjus_psl.0.1 Ag Au
+rel-pbesol-dn-kjpaw_psl.0.1 Ag Au
+pbe-mt He O
+pbe-mt_gipaw C Si
+rel-pz-n-rrkjus Co Pt
+pw91-mt Br Cl
+pbesol-dn-kjpaw_psl.0.1 Ag Au
+pbesol-dn-rrkjus_psl.0.1 Ag Au
+star1s-pbe-rrkjus C N
+pz-dn-rrkjus_psl.0.1 Ag Au
+rel-pbe-dn-rrkjus_psl.0.1 Ag Au
+bp-n-van_ak Al B
+rel-pz-dn-rrkjus_psl.0.1 Ag Au
+rel-pz-n-rrkjus_psl.0.2.3 Ar Ir
+star1s-pbe-n-van_gipaw Co Cu
+pbe-dn-rrkjus_psl.0.1 Ag Au
+pbe-sp-van_mit Fe Mn
+pbe-mt_bw Cs I
+pbe-d-mt_fhi Ga In
+rel-pbesol-n-rrkjus_psl.0.2.3 Ar Ir
+rel-pbe-n-rrkjus_psl.0.2.3 Ar Ir
+pbe-van Se Zn
+pz-n-rrkjus_psl.0.2.3 Ar Ir
+pw91-n-mt Na S
+pw91-n-van_ak B Cu
+pbe-van_gipaw O Si
+pz-d-mt_fhi Ga In
+pbe-n-van_ak B Cu
+pz-dn-kjpaw_psl.0.1 Ag Au
+pbesol-n-rrkjus_psl.0.2.3 Ar Ir
+star1s-pbe-mt_gipaw C Si
+pbe-dn-kjpaw_psl.0.1 Ag Au
+rel-pz-dn-kjpaw_psl.0.1 Ag Au
+star1s-blyp-mt C N
+star1s-pbe-van_gipaw O Si
+pbe-n-van_gipaw Co Cu
+rel-pbe-dn-kjpaw_psl.0.1 Ag Au
+pbe-n-rrkjus_psl.0.2.3 Ar Ir
+pz-mt He O
+pbe-kjpaw_psl.0.1 H
+pbe-mt_EM Cd
+pz-n-kjpaw.psl.0.2.3 Ar
+pz-rrkjus_psl.0.1 H
+rel-pz-rrkjus_psl.0.1 H
+pw91-sp-van Cr
+pbe-n-mt_bw Na
+pz-spn-rrkjus_psl.0.2.3 Rh
+rel-pbesol-n-kjpaw.psl.0.2.3 Ar
+pbe-n-bpaw La
+rel-pz-kjpaw Au
+pbe-nd-van Au
+pbesol-spn-kjpaw_psl.0.2.1 Fe
+pw91-np-van Mg
+rel-pz-n-kjpaw.psl.0.2.3 Ar
+pw91-sp-rrkjus Zr
+pz-n-van_ak Cu
+pz-vbc_125 H
+pbe-spn-kjpaw_psl.0.2.3 Rh
+pbe-n-rrkjus Ir
+pbesol-s-kjpaw_psl.0.2.1 Li
+blyp-sp-van Fe
+rel-pbesol-spn-kjpaw_psl.0.2.3 Rh
+pbe-n-mt K
+pz-s-mt Li
+pz-n-kjpaw_psl.0.2.3 Ir
+pw91-s-mt Li
+star1s-pbe-van N
+pz-s-kjpaw_psl.0.2.1 Li
+pbe-d-van Pb
+rel-pz-spn-kjpaw_psl.0.2.1 Fe
+rel-pbesol-rrkjus_psl.0.1 H
+tpss-n-mt Ge
+pbe-van_mit Br
+pw91-s-van_ak Li
+rel-pbesol-s-kjpaw_psl.0.2.1 Li
+pbe-n-kjpaw.psl.0.2.3 Ar
+rel-pz-s-rrkjus_psl.0.2.1 Li
+pz-spn-rrkjus_psl.0.2.1 Fe
+pbe-spn-rrkjus_psl.0.2.1 Fe
+rel-pbe-s-rrkjus_psl.0.2.1 Li
+pz-kjpaw_psl.0.1 H
+blyp-n-mt K
+pbesol-n-kjpaw.psl.0.2.3 Ar
+pz-vbc_150 H
+blyp-s-van_ak Li
+pbe-s-rrkjus_psl.0.2.1 Li
+pbesol-spn-kjpaw_psl.0.2.3 Rh
+pbe-s-kjpaw_psl.0.2.1 Li
+rel-pbe-rrkjus_psl.0.1 H
+rel-pz-spn-kjpaw_psl.0.2.3 Rh
+rel-pbe-kjpaw Fe
+star1s-pz-n-vbc Be
+rel-pbesol-spn-kjpaw_psl.0.2.1 Fe
+rel-pz-spn-rrkjus_psl.0.2.3 Rh
+pz-n-rrkjus_psl.0.2.2 Pd
+bp-s-van_ak Li
+pbe-n-kjpaw_psl.0.2.2 Pd
+rel-pbe-s-kjpaw_psl.0.2.1 Li
+bp-s-mt Li
+pbe-rrkjus_psl.0.1 H
+pz-n-kjpaw_psl.0.2.2 Pd
+blyp-vbc H
+pbesol-n-kjpaw_psl.0.2.2 Pd
+pbe-s-van_ak Li
+pbesol-s-rrkjus_psl.0.2.1 Li
+pz-rrkj Ar
+rel-pbe-spn-kjpaw_psl.0.2.1 Fe
+rel-pbe-spn-rrkjus_psl.0.2.1 Fe
+pbe-d-mt Bi
+rel-pbesol-s-rrkjus_psl.0.2.1 Li
+rel-pz-kjpaw_psl.0.1 H
+rel-pbe-spn-rrkjus_psl.0.2.3 Rh
+rel-pz-spn-rrkjus_psl.0.2.1 Fe
+pbe-n-kjpaw_psl.0.2.3 Ir
+pbe-spn-kjpaw_psl.0.2.1 Fe
+pbesol-kjpaw_psl.0.1 H
+rel-pbe-n-kjpaw.psl.0.2.3 Ar
+rel-pz-n-kjpaw_psl.0.2.3 Ir
+pz-van_asa F
+rel-pbesol-kjpaw_psl.0.1 H
+pz-s-van_ak Li
+blyp-s-mt Li
+pbe-n-rrkjus_psl.0.2.2 Pd
+pbe-spn-rrkjus_psl.0.2.3 Rh
+rel-pbesol-spn-rrkjus_psl.0.2.1 Fe
+pw91-d-van Au
+pbesol-spn-rrkjus_psl.0.2.3 Rh
+rel-pbe-n-kjpaw_psl.0.2.3 Ir
+pbesol-spn-rrkjus_psl.0.2.1 Fe
+pbe-s-mt Li
+rel-pbe-kjpaw_psl.0.1 H
+pz-spn-kjpaw_psl.0.2.3 Rh
+pbe-nsp-bpaw Mg
+pbesol-rrkjus_psl.0.1 H
+coulomb-ae H
+pbesol-n-kjpaw_psl.0.2.3 Ir
+pz-vbc_075 H
+pz-vbc_050 H
+pbesol-n-rrkjus_psl.0.2.2 Pd
+rel-pbe-spn-kjpaw_psl.0.2.3 Rh
+rel-pz-s-kjpaw_psl.0.2.1 Li
+pz-s-rrkjus_psl.0.2.1 Li
+pz-n-bhs In
+rel-pbesol-spn-rrkjus_psl.0.2.3 Rh
+pz-spn-kjpaw_psl.0.2.1 Fe
+rel-pbesol-n-kjpaw_psl.0.2.3 Ir
+pbe-vbc H

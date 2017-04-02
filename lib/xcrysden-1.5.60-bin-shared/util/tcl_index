@@ -1,8 +1,0 @@
-#!/bin/sh
-#this line restarts tclsh \
-exec tclsh "$0" "$@"
-
-if { [glob -nocomplain -- *.tcl] != {} } {
-    auto_mkindex [pwd] *.tcl
-}
-exit

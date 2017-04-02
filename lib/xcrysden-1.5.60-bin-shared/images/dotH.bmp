@@ -1,4 +1,0 @@
-#define dotH_width 6
-#define dotH_height 1
-static unsigned char dotH_bits[] = {
-  0x07, };
