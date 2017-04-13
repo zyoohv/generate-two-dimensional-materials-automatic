@@ -1,7 +1,7 @@
 import os
 
 
-def search_upf_identity(atom_set, upf_middle, upf_list_path):
+def search_upf_identity(atom_set, upf_middle, upf_list_path='data/upf_search_list'):
     db = {}
     with open(upf_list_path, 'r') as fin:
         for line in fin:
@@ -13,8 +13,7 @@ def search_upf_identity(atom_set, upf_middle, upf_list_path):
         return False
 
 
-def search_upf_file(atom_set, upf_list_path):
-
+def search_upf_file(atom_set, upf_list_path='data/upf_search_list'):
     with open(upf_list_path, 'r') as fin:
         for line in fin:
             item = [str(i) for i in line.strip().split(' ') if i]

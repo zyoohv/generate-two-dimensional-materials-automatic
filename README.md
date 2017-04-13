@@ -22,12 +22,12 @@ describe: and expand the automs, than we just need two-cluster with 3D
 
 >	prepare some images to compare them, and select one to use. or add to parameters to use which one method
 
-*	two
+*   two
 
-read paper 
+read *“Mean shift: A robust approach toward feature space analysis.” D. Comaniciu and P. Meer, IEEE Transactions on Pattern Analysis and Machine Intelligence (2002)*
 
-`Brendan J. Frey and Delbert Dueck, “Clustering by Passing Messages Between Data Points”, Science Feb. 2007`
 
->	learn how does it works
+*   three
 
+use c++ to split atoms by axis_z
 
