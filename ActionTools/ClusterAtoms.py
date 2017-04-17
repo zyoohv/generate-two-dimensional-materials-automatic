@@ -1,7 +1,5 @@
-#! /usr/bin/python
-
 import numpy as np
-from baba.clusterNormal import clusterNormal
+from ActionTools.baba.clusterNormal import clusterNormal
 from sklearn.cluster import KMeans
 from sklearn.cluster import AffinityPropagation
 from sklearn.cluster import MeanShift, estimate_bandwidth
@@ -21,7 +19,8 @@ class MeanShift_method(clusterNormal):
     """docstring for MeanShift_method"""
 
     def run(self):
-        bandwidth = estimate_bandwidth(self.normal_posi, quantile=0.2, n_samples=len(normal_posi))
+        bandwidth = estimate_bandwidth(
+            self.normal_posi, quantile=0.2, n_samples=len(normal_posi))
         ms = MeanShift(bandwidth=bandwidth, bin_seeding=True)
         ms.fit(self.normal_posi)
 
@@ -42,10 +41,11 @@ class KMeans_method(clusterNormal):
 
     def run(self):
         n_clusters = 2
-        self.labels = KMeans(n_clusters=n_clusters).fit_predict(self.normal_posi[:, 2])
+        self.labels = KMeans(n_clusters=n_clusters).fit_predict(
+            self.normal_posi[:, 2])
 
 
-def cluster_from_file(input_file, method='KMeans_method', plot_image=3):
+def cluster_from_file(input_file, method='KMeans_method', plot_image=2):
     method_dic = {
         'KMeans_method': KMeans_method
     }
@@ -89,7 +89,8 @@ def cluster_from_file(input_file, method='KMeans_method', plot_image=3):
     # apply cluster method
     initlen = len(atom)
     appendData()
-    doCluster = method_dic[method](np.mat([vec_a, vec_b, vec_c]), np.mat(atom), np.mat(posi), initlen)
+    doCluster = method_dic[method](
+        np.mat([vec_a, vec_b, vec_c]), np.mat(atom), np.mat(posi), initlen)
 
     doCluster.run()
     if plot_image == 3:

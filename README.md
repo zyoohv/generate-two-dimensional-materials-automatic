@@ -1,33 +1,32 @@
-## Python
+# Generate 2-Dimensional Materials automatic
 
-```
-$ sudo apt-get install python-tk
-$ pip install numpy
-$ pip install scipy
-$ pip install sklearn
-$ pip install matplotlib
-```
+## Install Require
 
-## todo next
+1. `Anaconda3`
+2. `gfortran`
 
-*	one
+*note: it can run in linux-x64 only, we don't support other platforms.*
 
-method1: *Affinity Propagation*
+## project
 
-describe: suit the data
+### Introduction
 
-method2: *other k means*
+[http://tech2ipo.com/10033656](http://tech2ipo.com/10033656)
 
-describe: and expand the automs, than we just need two-cluster with 3D
+[http://news.sciencenet.cn/htmlnews/2017/4/373685.shtm](http://news.sciencenet.cn/htmlnews/2017/4/373685.shtm)
 
->	prepare some images to compare them, and select one to use. or add to parameters to use which one method
+[https://www.zhihu.com/question/38853039](https://www.zhihu.com/question/38853039)
 
-*   two
+### Relate Work
 
-read *“Mean shift: A robust approach toward feature space analysis.” D. Comaniciu and P. Meer, IEEE Transactions on Pattern Analysis and Machine Intelligence (2002)*
+talk about every materials and their papers.
 
+### Struct of g2dma
 
-*   three
+finished last model.
 
-use c++ to split atoms by axis_z
+draw flow jobs of the g2dma
 
+### experiments
+
+### Future Work

@@ -1,0 +1,26 @@
+ &control
+    calculation = 'True'
+    restart_mode='from_scratch',
+    prefix='MoMoSS',
+    pseudo_dir = './',
+    outdir='./tmp'
+    tprnfor = .true., tstress=.true.
+ /  &system
+    ibrav=  0, nat= 4, ntyp= 2,
+    ecutwfc = 30.0, ecutrho = 240.0, nbnd=20,
+    occupations='smearing', smearing='gauss', degauss=0.01, 
+/  &electrons
+    mixing_mode = 'plain'
+    mixing_beta = 0.3
+    conv_thr =  1.0d-6
+    mixing_fixed_ns = 0 
+/CELL_PARAMETERS
+3.170841 0.016158 -0.219126 
+-0.011973 5.508152 0.218269 
+-0.293847 0.558833 7.265195 
+ATOMIC_SPECIES
+ Mo   1.  Mopbe-mt_fhi.UPF
+ Mo   1.  Mopbe-mt_fhi.UPF
+ S   1.  Spbe-mt_fhi.UPF
+ S   1.  Spbe-mt_fhi.UPF
+ATOMIC_POSITIONS {crystal}
