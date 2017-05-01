@@ -6,14 +6,9 @@ sys.path.append('.')
 from ActionTools.getmodel import getscfin
 from ActionTools import *
 
-
 parser = argparse.ArgumentParser()
-
-parser.add_argument('-i', '--input', type=str,
-                    help='input file dir', default='data/example')
-parser.add_argument('-t', '--type', type=str,
-                    help='upf file type', default='None')
-
+parser.add_argument('-i', '--input', type=str, help='input file dir', default='data/example')
+parser.add_argument('-t', '--type', type=str, help='upf file type', default='None')
 args = parser.parse_args()
 
 # set parameters
@@ -59,4 +54,4 @@ for filename in filelist:
         posi.append(file_content[i][1:])
     item = getItemName(atom)
     getscfin(item, atom, atomq, vec, posi, scf=True, outputdir=outputdir)
-    getscfin(item, atom, atomq, vec, posi, scf=False, outputdir=outputdir)
+    # getscfin(item, atom, atomq, vec, posi, scf=False, outputdir=outputdir)

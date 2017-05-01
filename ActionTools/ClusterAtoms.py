@@ -40,17 +40,31 @@ class KMeans_method(clusterNormal):
     """docstring for KMeans_method"""
 
     def run(self):
-        n_clusters = 2
+        n_clusters = 3
         self.labels = KMeans(n_clusters=n_clusters).fit_predict(
             self.normal_posi[:, 2])
 
 
-def cluster_from_file(input_file, method='KMeans_method', plot_image=2):
-    method_dic = {
-        'KMeans_method': KMeans_method
-    }
-
+def loadDataFromFile(input_file):
     # process input file.
+    # 0  CRYSTAL
+    # 1 PRIMVEC
+    # 2               3.17084100          0.01615800         -0.21912600
+    # 3              -0.01197300          5.50815200          0.21826900
+    # 4              -0.29384700          0.55883300          7.26519500
+    # 5 CONVVEC
+    # 6               3.17084100          0.01615800         -0.21912600
+    # 7              -0.01197300          5.50815200          0.21826900
+    # 8              -0.29384700          0.55883300          7.26519500
+    # 9 PRIMCOORD
+    # 10   6  1
+    # 11  42          1.63930200          4.92754300          0.27744900
+    # 12  42          0.05483500          2.16610900          0.27558600
+    # 13  16          0.16924900          0.26703900          1.76227800
+    # 14  16          1.74542900          3.02889300          1.76031000
+    # 15  16          2.83448100          0.96490700          5.69281800
+    # 16  16          1.23644700          3.71157800          5.90873400
+    #
     input_model = []
     input_str = []
     with open(input_file, 'r') as fin:
@@ -64,38 +78,26 @@ def cluster_from_file(input_file, method='KMeans_method', plot_image=2):
     atom = []
     posi = []
     for i in range(11, 11 + numofAtom):
-        atom.append(np.array([int(input_model[i][0])]))
-        posi.append(np.array([float(i) for i in input_model[i][1:]]))
+        atom.append([int(input_model[i][0])])
+        posi.append([float(i) for i in input_model[i][1:]])
+    return np.array([vec_a, vec_b, vec_c]), np.array(atom), np.array(posi), input_str[:10]
 
-    def appendData():
-        for i in range(len(posi)):
-            posi.append(posi[i] + vec_a)
-            posi.append(posi[i] - vec_a)
-            posi.append(posi[i] + vec_b)
-            posi.append(posi[i] - vec_b)
-            posi.append(posi[i] + vec_a + vec_b)
-            posi.append(posi[i] - vec_a - vec_b)
-            posi.append(posi[i] + vec_a - vec_b)
-            posi.append(posi[i] - vec_a + vec_b)
-            atom.append(atom[i])
-            atom.append(atom[i])
-            atom.append(atom[i])
-            atom.append(atom[i])
-            atom.append(atom[i])
-            atom.append(atom[i])
-            atom.append(atom[i])
-            atom.append(atom[i])
 
+def cluster_from_file(input_file, method='KMeans_method', plot_image=2):
+    method_dic = {
+        'KMeans_method': KMeans_method
+    }
+
+    axis, atom, posi, prefix = loadDataFromFile(input_file)
     # apply cluster method
-    initlen = len(atom)
-    appendData()
-    doCluster = method_dic[method](
-        np.mat([vec_a, vec_b, vec_c]), np.mat(atom), np.mat(posi), initlen)
-
+    doCluster = method_dic[method](axis, atom, posi)
     doCluster.run()
+
     if plot_image == 3:
         doCluster.paint3D()
     elif plot_image == 2:
         doCluster.paint2D()
+    elif plot_image == 1:
+        doCluster.paint1D()
 
-    return input_str[:10], doCluster.selectAtom()
+    return prefix, doCluster.selectAtom()
