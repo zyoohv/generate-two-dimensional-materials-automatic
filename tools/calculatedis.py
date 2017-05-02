@@ -3,9 +3,10 @@ import argparse
 import numpy as np
 import copy
 import os
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from matplotlib import cm
-from mpl_toolkits.mplot3d import Axes3D
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', type=str, help='input file dir', default='data/example')
@@ -37,7 +38,7 @@ with open(scf_in_file, 'r') as fin:
 
 # some config here.
 mullow = 0.6
-mulhigh = 2
+mulhigh = 3
 tmp_scf_in = 'scf.in.tmp'
 tmp_scf_out = 'scf.out.tmp'
 energy = []
@@ -52,67 +53,43 @@ def generatefile(origin_file, vec):
     return origin_file
 
 
-def generatevec(dismula, dismulb):
+def generatevec(dismul, vec):
     newvec = copy.deepcopy(vec)
-    newvec[0], newvec[1] = dismula * vec[0], dismulb * vec[1]
+    newvec[2] *= dismul
     return newvec
 
 
-for dismula in dislist:
-    for dismulb in dislist:
-        print('multipy : {:.2f} {:.2f}'.format(dismula, dismulb), end='  ')
-        newvec = generatevec(dismula, dismulb)
-        newfile = generatefile(file_content, newvec)
+for dismul in dislist:
+    newvec = generatevec(dismul, vec)
+    newfile = generatefile(file_content, newvec)
 
-        # store tmp file to tmp_scf_in
-        with open(os.path.join(args.input, tmp_scf_in), 'w') as fout:
-            for line in newfile:
-                fout.write(line)
+    # store tmp file to tmp_scf_in
+    with open(os.path.join(args.input, tmp_scf_in), 'w') as fout:
+        for line in newfile:
+            fout.write(line)
 
-        # pwscf
-        cmd = "cd {}; pw.x < {} | grep '^!' > {}".format(args.input, tmp_scf_in, tmp_scf_out)
-        # print('cmd : ', cmd)
-        os.system(cmd)
+    # pwscf
+    cmd = "cd {}; pw.x < {} | grep '^!' > {}".format(args.input, tmp_scf_in, tmp_scf_out)
+    # print('cmd : ', cmd)
+    os.system(cmd)
 
-        # get energy
-        with open(os.path.join(args.input, tmp_scf_out), 'r') as fin:
-            out_file = [line.strip().split(' ') for line in fin][0]
-            print('energy=', float(out_file[-2]))
-            energy.append([dismula, dismulb, float(out_file[-2])])
+    # get energy
+    maxval = -np.inf
+    with open(os.path.join(args.input, tmp_scf_out), 'r') as fin:
+        out_file = [line.strip().split(' ') for line in fin]
+        eval = maxval if len(out_file) == 0 else float(out_file[0][-2])
+        maxval = max(maxval, eval)
+        print('dismul= {:.2f}, energy= {}'.format(dismul, eval))
+        energy.append([dismul, eval])
 
 energy = np.array(energy)
 # print('energy : ', energy)
 
-def get_plot_data(energy, augdis):
-    '''
-    drawmul = 5
-    energy[:, 0:2] *= drawmul
-    augdis *= drawmul
-    '''
-    def findval(x, y):
-        for line in energy:
-            if line[0] == x and line[1] == y:
-                return line[2]
-
-    X = np.array([augdis for _ in range(augdis.shape[0])])
-    Y = X.T
-    Z = []
-    for i in range(augdis.shape[0]):
-        line = []
-        for j in range(augdis.shape[0]):
-            line.append(findval(X[i][j], Y[i][j]))
-        Z.append(line)
-    return X, Y, Z
-
-
-X, Y, Z = get_plot_data(energy, dislist)
-
 fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
+ax = fig.add_subplot(111)
 
-print('X = \n', X)
-print('Y = \n', Y)
-print('Z = \n', Z)
-ax.plot_wireframe(X, Y, Z, rstride=1, cstride=1)
+print('X = \n', energy[:, 0])
+print('Y = \n', energy[:, 1])
+ax.plot(energy[:, 0], energy[:, 1], 'k-')
 
-plt.show()
+plt.savefig('result.jpg')
